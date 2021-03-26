@@ -1,0 +1,22 @@
+<?php if(!class_exists('Rain\Tpl')){exit;}?><!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="/res/css/loginStyle.css">
+	<title>Sign In</title>
+</head>
+<body>
+	<form action="/" method="post">
+  		<div class="imgcontainer">
+    		<img src="/res/images/corujaLendo.jpg" alt="Avatar" class="avatar">
+  		</div>
+  		<div class="container">
+		    <label for="login"><b>Login</b></label>
+		    <input type="text" placeholder="Login" name="login" required>
+		    <label for="password"><b>Password</b></label>
+		    <input type="password" placeholder="Enter Password" name="password" required>
+		    <button type="submit">Login</button>
+	  	</div>
+	</form>
+</body>
+</html>

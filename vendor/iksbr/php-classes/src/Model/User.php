@@ -1,0 +1,72 @@
+<?php
+
+namespace iks\Model;
+
+use \iks\DB\Sql;
+use \iks\Model;
+
+class User extends Model{
+
+	const SESSION = "User";
+
+	public static function login($login, $password)
+	{
+
+		$sql = new Sql();
+
+		$results = $sql->select("SELECT * FROM tb_user WHERE deslogin = :LOGIN", array(
+			":LOGIN"=>$login
+		));
+
+		if (count($results) == 0)
+		{
+			throw new \Exception("Usuario inexistente ou senha invalida.");
+		}
+
+		$data = $results[0];
+
+		if ($password === $data["despassword"])
+		{
+
+			$user = new User();
+
+			$user->setData($data);
+
+			$_SESSION[User::SESSION] = $user->getValues();
+
+			return $user;
+
+		} else {
+			throw new \Exception("Usuario inexistente ou senha invalida.");
+		}
+
+	}
+
+	public static function verifyLogin()
+	{
+
+		if (
+			!isset($_SESSION[User::SESSION])
+			||
+			!$_SESSION[User::SESSION]
+			||
+			!(int)$_SESSION[User::SESSION]["iduser"] > 0
+		) {
+
+			header("Location: /");
+			exit;
+
+		}
+
+	}
+
+	public static function logout()
+	{
+
+		$_SESSION[User::SESSION] = NULL;
+
+	}
+
+}
+
+?>

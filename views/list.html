@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>List Of Borrowed Books</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="/res/plus/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="/res/css/simple-sidebar.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="\res\css\registerStyle.css">
+
+</head>
+
+<body>
+
+  <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">Menu </div>
+      <div class="list-group list-group-flush">
+        <a href="/menu" class="list-group-item list-group-item-action bg-light">Home</a>
+        <a href="/menu/register" class="list-group-item list-group-item-action bg-light">Register a New Book</a>
+        <a href="/menu/borrowed" class="list-group-item list-group-item-action bg-light">Borrow A Book</a>
+        <a href="/menu/list" class="list-group-item list-group-item-action bg-light">List Borrowed Books</a>
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+              <a class="nav-link bg-light" href="/menu/logout">Sign Out</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="container-fluid">
+        <div class="imgcontainer">
+            <h1 class="mt-4"><img src="\res\images\corujaLendo.jpg" alt="Avatar" class="avatar"> List:</h1>
+        </div>
+        <p>All borrowed books can be found here.</p>
+      </div>
+
+      <div class="container-fluid">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th style="width: 10px">ID</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Category</th>
+              <th>Client's Name</th>
+              <th>Borrow Date</th>
+              <th>Return Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loop="$borrowed"}
+            <tr>
+              <td>{$value.idbook}</td>
+              <td>{$value.destitle}</td>
+              <td>{$value.desauthor}</td>
+              <td>{$value.descategory}</td>
+              <td>{$value.desname}</td>
+              <td>{$value.dtregister}</td>
+              <td>{$value.dtreturn}</td>
+              <td>
+                  <a href="/menu/list-update/{$value.idbook}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Edit</a>
+                  <a href="/menu/{$value.idbook}/delete" onclick="return confirm('Deseja realmente excluir este registro?')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Delete</a>
+              </td>
+            </tr>
+            {/loop}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="/res/plus/jquery/jquery.min.js"></script>
+  <script src="/res/plus/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Menu Toggle Script -->
+  <script>
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+  </script>
+
+</body>
+
+</html>
