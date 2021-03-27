@@ -62,15 +62,15 @@
       </div>
 
       <div class="container-fluid">
-        <form role="form" action="/menu/borrowed" method="post">
+        <form role="form" action="/menu/list-update/{$books.idbook}" method="post">
           <div class="box-body">
             <div class="form-group">
               <label for="desname"><b>Client's Name</b></label>
-              <input type="text" placeholder="Enter Client's Name" name="desname" id="desname" required>
+              <input type="text" placeholder="Enter Client's Name" name="desname" id="desname" value="{$books.desname}">
             </div>
             <div class="form-group">
               <label for="dtreturn"><b>Return Date</b></label><br><br>
-              <input type="date" placeholder="Enter Return Date" name="dtreturn" id="dtreturn" required>
+              <input type="date" placeholder="Enter Return Date" name="dtreturn" id="dtreturn"  value="{$books.dtreturn}">
             </div>
             <div class="checkbox">
               <label>

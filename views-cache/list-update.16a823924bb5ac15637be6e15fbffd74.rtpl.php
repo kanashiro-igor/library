@@ -62,15 +62,15 @@
       </div>
 
       <div class="container-fluid">
-        <form role="form" action="/menu/borrowed" method="post">
+        <form role="form" action="/menu/list-update/<?php echo htmlspecialchars( $books["idbook"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" method="post">
           <div class="box-body">
             <div class="form-group">
               <label for="desname"><b>Client's Name</b></label>
-              <input type="text" placeholder="Enter Client's Name" name="desname" id="desname" required>
+              <input type="text" placeholder="Enter Client's Name" name="desname" id="desname" value="<?php echo htmlspecialchars( $books["desname"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
             </div>
             <div class="form-group">
               <label for="dtreturn"><b>Return Date</b></label><br><br>
-              <input type="date" placeholder="Enter Return Date" name="dtreturn" id="dtreturn" required>
+              <input type="date" placeholder="Enter Return Date" name="dtreturn" id="dtreturn"  value="<?php echo htmlspecialchars( $books["dtreturn"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
             </div>
             <div class="checkbox">
               <label>

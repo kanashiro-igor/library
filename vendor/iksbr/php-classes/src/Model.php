@@ -2,11 +2,13 @@
 
 namespace iks;
 
+use iks\DB\Sql;
+
 class Model {
 
 	private $values = [];
 
-	public function __call($name, $args = array())
+	public function __call($name, $args = array()) // Setting getters and setters dynamically
 	{
 
 		$method = substr($name, 0, 3);
@@ -42,6 +44,19 @@ class Model {
 	{
 
 		return $this->values;
+
+	}
+
+	public function get($idbook)
+	{
+
+		$sql = new Sql();
+
+		$results = $sql->select("SELECT * FROM tb_books WHERE idbook = :idbook", array(
+			":idbook"=>$idbook
+		));
+
+		$this->setData($results[0]);
 
 	}
 

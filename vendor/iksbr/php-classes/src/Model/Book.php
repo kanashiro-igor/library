@@ -17,15 +17,6 @@ class Book extends Model {
 
 	}
 
-	public static function listBorrowed()
-	{
-
-		$sql = new Sql();
-
-		return $sql->select("SELECT * FROM tb_books a INNER JOIN tb_borrowed b USING (idbook) ORDER BY idbook");
-
-	}
-
 	public function save() // Calling procedure sp_book_save -> Inserts and then returns array (INSERT INTO... SELECT * FROM ...)
 	{
 
@@ -37,20 +28,7 @@ class Book extends Model {
 			":descategory"=>$this->getdescategory()
 		));
 
-		$this->setData($results[0]);
-
-	}
-
-	public function get($idbook)
-	{
-
-		$sql = new Sql();
-
-		$results = $sql->select("SELECT * FROM tb_books WHERE idbook = :idbook", array(
-			":idbook"=>$idbook
-		));
-
-		$this->setData($results[0]);
+		$this->setData($results[0]); // sets insert into $values in case data will be used next
 
 	}
 
@@ -59,14 +37,23 @@ class Book extends Model {
 
 		$sql = new Sql();
 
-		$results = $sql->select("CALL sp_booksupdate_save(:idbook, :destitle, :desauthor, :descategory)", array(
+		$sql->query("UPDATE tb_books SET idbook = :idbook, destitle = :destitle, desauthor = :desauthor, descategory = :descategory WHERE idbook = :idbook", array(
 			":idbook"=>$this->getidbook(),
 			":destitle"=>$this->getdestitle(),
 			":desauthor"=>$this->getdesauthor(),
 			":descategory"=>$this->getdescategory()
 		));
 
-		$this->setData($results[0]);
+	}
+
+	public function delete()
+	{
+
+		$sql = new Sql();
+
+		$sql->query("DELETE FROM tb_books WHERE idbook = :idbook", array(
+			":idbook"=>$this->getidbook()
+		));
 
 	}
 }

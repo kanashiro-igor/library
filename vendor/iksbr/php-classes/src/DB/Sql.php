@@ -4,14 +4,15 @@ namespace iks\DB;
 
 class Sql {
 
+	// Database Info for Connection
 	const HOSTNAME = "127.0.0.1";
 	const USERNAME = "root";
 	const PASSWORD = "";
 	const DBNAME = "db_library";
 
-	private $conn;
+	private $conn; // -> resource variable
 
-	public function __construct()
+	public function __construct() // starts connection when created class object
 	{
 
 		$this->conn = new \PDO(

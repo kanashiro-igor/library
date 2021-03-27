@@ -6,6 +6,7 @@ use \Slim\Slim;
 use \iks\Page;
 use \iks\Model\User;
 use \iks\Model\Book;
+use \iks\Model\bookBorrowed;
 
 $app = new Slim();
 
@@ -34,6 +35,9 @@ $app->get('/menu', function() { // Menu listing books
 
 	$books = Book::listAll();
 
+	//var_dump($books);
+	//exit;
+
 	$page = new Page();
 
 	$page->setTpl("menu", array(
@@ -47,6 +51,21 @@ $app->get('/menu/logout', function(){ // Logout out button
 	User::logout();
 
 	header("Location: /");
+	exit;
+
+});
+
+$app->get("/menu/:idbook/delete", function($idbook){ // Deleting book
+
+	User::verifyLogin();
+
+	$books = new Book();
+
+	$books->get((int)$idbook);
+
+	$books->delete();
+
+	header("Location: /menu");
 	exit;
 
 });
@@ -66,7 +85,7 @@ $app->get("/menu/register-update/:idbook", function($idbook){ // Edit a book
 	));
 });
 
-$app->post("/menu/register-update/:idbook", function($idbook){ // Updating a book !! VER POR QUE ESTA MUDANDO TODOS REGISTROS !!
+$app->post("/menu/register-update/:idbook", function($idbook){ // Updating a book
 
 	User::verifyLogin();
 
@@ -87,11 +106,11 @@ $app->post("/menu/register", function(){ // Creating a new book
 
 	User::verifyLogin();
 
-	$book = new Book();
+	$books = new Book();
 
-	$book->setData($_POST);
+	$books->setData($_POST);
 
-	$book->save();
+	$books->save();
 
 	header("Location: /menu");
 	exit;
@@ -122,11 +141,14 @@ $app->post("/menu/borrowed", function(){ // Creating a new borrowed book
 
 	User::verifyLogin();
 
-	$book = new Book();
+	$books = new bookBorrowed();
 
-	$book->setData($_POST);
+	$books->setData($_POST);
 
-	var_dump($book); // --> criar e chamar metodo criacao livros emprestados com condicionais
+	$books->saveBorrowed();
+
+	header("Location: /menu/list");
+	exit;
 
 
 });
@@ -135,7 +157,7 @@ $app->get('/menu/list', function(){ // Lists all borrowed books
 
 	User::verifyLogin();
 
-	$borrowed = Book::listBorrowed();
+	$borrowed = bookBorrowed::listBorrowed();
 
 	$page = new Page();
 
@@ -149,17 +171,23 @@ $app->get('/menu/list-update/:idbook', function($idbook){ // Edit a borrowed boo
 
 	User::verifyLogin();
 
+	$books = new bookBorrowed();
+
+	$books->getBorrowed((int)$idbook);
+
 	$page = new Page();
 
-	$page->setTpl('list-update');
+	$page->setTpl("list-update", array(
+		"books"=>$books->getValues()
+	));
 
 });
 
-$app->post("/menu/list-update/:idbook", function($idbook){
+$app->post("/menu/list-update/:idbook", function($idbook){ // Edit registry borrowed
 
 	User::verifyLogin();
 
-	$books = new Book();
+	$books = new bookBorrowed();
 
 	$books->getBorrowed((int)$idbook);
 
@@ -167,7 +195,22 @@ $app->post("/menu/list-update/:idbook", function($idbook){
 
 	$books->updateBorrowed();
 
-	header("Location: menu/list");
+	header("Location: /menu/list");
+	exit;
+
+});
+
+$app->get("/menu/list/:idbook/delete", function($idbook){ // Deleting borrowed book from list -> Changes back book status!
+
+	User::verifyLogin();
+
+	$books = new bookBorrowed();
+
+	$books->getBorrowed((int)$idbook);
+
+	$books->deleteBorrowed();
+
+	header("Location: /menu/list");
 	exit;
 
 });
