@@ -33,7 +33,8 @@ dtregister TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP()
 
 INSERT INTO db_library.tb_user (deslogin, despassword) VALUES ('admin', 'admin');
 
-DELIMITER ;;
+DROP PROCEDURE IF EXISTS sp_book_save;
+DELIMITER //
 CREATE PROCEDURE `sp_book_save`(
 pdestitle VARCHAR(64), 
 pdesauthor VARCHAR(64), 
@@ -45,9 +46,11 @@ BEGIN
 	SELECT * FROM tb_books ORDER BY idbook;
     
 END
+//
 DELIMITER ;
 
-DELIMITER ;;
+DROP PROCEDURE IF EXISTS sp_borrowed_save;
+DELIMITER //
 CREATE PROCEDURE `sp_borrowed_save`(
 pidbook INT,
 pdesname VARCHAR (64),
@@ -60,9 +63,11 @@ BEGIN
     INSERT INTO tb_borrowed (idbook, desname, dtreturn) VALUES (pidbook, pdesname, pdtreturn);
     
 END
+//
 DELIMITER ;
 
-DELIMITER ;;
+DROP PROCEDURE IF EXISTS sp_delete_borrowed;
+DELIMITER //
 CREATE PROCEDURE `sp_delete_borrowed`(
 pidbook INT
 )
@@ -73,4 +78,5 @@ BEGIN
     UPDATE tb_books SET status = 0 WHERE idbook = pidbook;
     
 END
+//
 DELIMITER ;
